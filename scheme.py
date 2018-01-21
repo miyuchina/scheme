@@ -23,9 +23,9 @@ class Interpreter:
     @property
     def init_library(self):
         library = {'+': lambda *args: sum(map(self.eval, args)),
-                   '-': lambda *args: reduce(lambda x, y: self.eval(x) - self.eval(y), args),
-                   '*': lambda *args: reduce(lambda x, y: self.eval(x) * self.eval(y), args),
-                   '/': lambda *args: reduce(lambda x, y: self.eval(x) / self.eval(y), args),
+                   '-': lambda *args: reduce(lambda x, y: x - y, map(self.eval, args)),
+                   '*': lambda *args: reduce(lambda x, y: x * y, map(self.eval, args)),
+                   '/': lambda *args: reduce(lambda x, y: x / y, map(self.eval, args)),
                    'true': True,
                    'false': False,
                    '<=': lambda x, y: self.eval(x) <= self.eval(y),
