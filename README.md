@@ -2,7 +2,7 @@
 
 This repository contains a working implementation of the Scheme interpreter in Python.
 
-# Usage
+## Usage
 
 Only Python 3.6 or higher is supported.
 Backports to Python 3.5 could probably be done by removing all the f-strings,
@@ -42,12 +42,26 @@ python3 -i scheme.py
 3
 ```
 
-# Features
+## Features
 
 Most arithmetic and boolean operators are built-in.
 Integers, floats and booleans are implemented as Python literals.
 Pairs are implemented as tuples, and lists are implemented as Python lists.
 All expressions are evaluated in applicative order.
+
+Functions have lexical scoping, but can see everything in its parent scope as well:
+
+```scheme
+> (define x 2)
+> (define y 4)
+> (define (foo) (define x 3) (+ x y))
+> (foo)
+7
+> x
+2
+```
+
+There are no for loops or while loops, but recursion works as expected.
 
 Some special forms are listed below:
 
@@ -59,9 +73,9 @@ Some special forms are listed below:
 - [delay](#delay)
 - [force](#force)
 
-## define
+### define
 
-### ... a variable
+#### ... a variable
 
 * **syntax**: `(define NAME EXPR)`
 * **returns**: `None`
@@ -72,7 +86,7 @@ Some special forms are listed below:
 42
 ```
 
-### ... a function
+#### ... a function
 
 * **syntax**: `(define (NAME * PARAM) * EXPR)`
 * **returns**: `None`
@@ -85,7 +99,7 @@ Some special forms are listed below:
 
 All expressions in the definition body are evaluated, though only the last one is returned.
 
-## lambda
+### lambda
 
 * **syntax**: `(lambda (* PARAM) * EXPR)`
 * **returns**: `<Procedure * PARAM>`
@@ -100,7 +114,7 @@ All expressions in the definition body are evaluated, though only the last one i
 
 All expressions in the definition body are evaluated, though only the last one is returned.
 
-## if
+### if
 
 * **syntax**: `(if COND_EXPR TRUE_EXPR FALSE_EXPR)`
 * **returns**: the result of either `TRUE_EXPR` or `FALSE_EXPR`
@@ -115,7 +129,7 @@ All expressions in the definition body are evaluated, though only the last one i
 The `if` expression short-circuits; that is, if condition evaluates to true,
 the false expression is never evaluated.
 
-## cond
+### cond
 
 * **syntax**: `(cond * (COND_EXPR EXPR) ? (else EXPR))`
 * **returns**: the result of `EXPR` whose `COND_EXPR` evaluates to `True`, or the else branch.
@@ -125,7 +139,7 @@ the false expression is never evaluated.
 6
 ```
 
-## let
+### let
 
 * **syntax**: `(let (* (NAME EXPR)) * EXPR)`
 * **returns**: the result of the last expression in the block.
@@ -137,7 +151,7 @@ the false expression is never evaluated.
 7
 ```
 
-## delay
+### delay
 
 * **syntax**: `(delay EXPR)`
 * **returns**: `<Procedure>`
@@ -150,9 +164,9 @@ the false expression is never evaluated.
 3
 ```
 
-`EXPR` are not evaluated until the expression is called or `force`-d. See below.
+`EXPR` is not evaluated until the expression is called or `force`-d. See below.
 
-## force
+### force
 
 * **syntax**: `(force EXPR)`
 * **returns**: the result of `EXPR`
