@@ -139,7 +139,7 @@ class Procedure:
         return result
 
     def __repr__(self):
-        return f'<Procedure {self.params}>'
+        return f'<Procedure {" ".join(self.params)}>'
 
 if __name__ == '__main__':
     import readline
