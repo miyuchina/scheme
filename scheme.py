@@ -47,6 +47,7 @@ class Interpreter:
                    'empty?': lambda l: bool(l),
                    'none': None,
                    'none?': lambda x: self.eval(x) is None,
+                   'let': self.let,
                    }
         for key, value in library.items():
             try:
@@ -64,6 +65,11 @@ class Interpreter:
             if len(exprs) > 1:
                 raise TypeError('argument length mismatch')
             self.env[name] = self.eval(exprs[0])
+
+    def let(self, assignments, *body):
+        params, exprs = zip(*assignments)
+        proc = Procedure(params, body, self)
+        return proc(*(self.eval(expr) for expr in exprs))
 
     def eval(self, token):
         if isinstance(token, (int, float)):
