@@ -43,8 +43,8 @@ class Interpreter:
                    'lambda': lambda params, *exprs: Procedure(params, exprs, self),
                    'display': lambda *args: print(*map(self.eval, args)),
                    'cons': lambda first, rest: (self.eval(first), self.eval(rest)),
-                   'first': lambda pair: pair[0],
-                   'rest': lambda pair: pair[1],
+                   'first': lambda pair: self.eval(pair)[0],
+                   'rest': lambda pair: self.eval(pair)[1],
                    'list': lambda *args: [*map(self.eval, args)],
                    'empty?': lambda l: bool(l),
                    'none': None,
@@ -56,6 +56,8 @@ class Interpreter:
                    'odd?': lambda n: n % 2 == 1,
                    'eq?': lambda x, y: x is y,
                    'equal?': lambda x, y: x == y,
+                   'delay': lambda expr: Procedure([], [expr], self),
+                   'force': lambda proc: self.eval(proc)(),
                    }
         for key, value in library.items():
             try:
