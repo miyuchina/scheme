@@ -142,8 +142,12 @@ class Procedure:
         return f'<Procedure {" ".join(self.params)}>'
 
 if __name__ == '__main__':
+    import sys
     import readline
     interp = Interpreter()
-    print('[scheme]')
-    interp.repl()
+    if len(sys.argv) > 1:
+        print(interp(open(sys.argv[1]).read()))
+    else:
+        print('[scheme]')
+        interp.repl()
 
