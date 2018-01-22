@@ -37,6 +37,7 @@ class Interpreter:
                    'or': lambda *args: any(map(self.eval, args)),
                    'not': lambda x: not self.eval(x),
                    'if': lambda cond, true, false: self.eval(true) if self.eval(cond) else self.eval(false),
+                   'cond': self.cond,
                    'define': self.define,
                    'lambda': lambda params, *exprs: Procedure(params, exprs, self),
                    'display': lambda *args: print(*map(self.eval, args)),
@@ -48,6 +49,12 @@ class Interpreter:
                    'none': None,
                    'none?': lambda x: self.eval(x) is None,
                    'let': self.let,
+                   'symbol?': lambda s: isinstance(s, str),
+                   'number?': lambda n: isinstance(self.eval(n), (int, float)),
+                   'even?': lambda n: n % 2 == 0,
+                   'odd?': lambda n: n % 2 == 1,
+                   'eq?': lambda x, y: x is y,
+                   'equal?': lambda x, y: x == y,
                    }
         for key, value in library.items():
             try:
@@ -70,6 +77,14 @@ class Interpreter:
         params, exprs = zip(*assignments)
         proc = Procedure(params, body, self)
         return proc(*(self.eval(expr) for expr in exprs))
+
+    def cond(self, *exprs):
+        for expr in exprs:
+            test, value = expr
+            if test == 'else' and 'else' not in self.env:
+                return self.eval(value)
+            if self.eval(test):
+                return self.eval(value)
 
     def eval(self, token):
         if isinstance(token, (int, float)):
