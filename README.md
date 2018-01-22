@@ -72,6 +72,7 @@ Some special forms are listed below:
 - [let](#let)
 - [delay](#delay)
 - [force](#force)
+- [Scheme functions](#scheme-functions)
 
 ### define
 
@@ -177,5 +178,48 @@ the false expression is never evaluated.
 > (define y 2)
 > (force p)
 3
+```
+
+### Scheme functions
+
+Some functions are easier to define in Scheme than in Python,
+so their implementation is not included in the interpreter.
+Here are, however, a few examples:
+
+**list-ref**: list indexing.
+
+```scheme
+(define (list-ref l n)
+  (if (= 0 n)
+      (first l)
+      (list-ref (rest l) (- n 1))))
+```
+
+**length**: similar to Python built-in function `len`.
+
+```scheme
+(define (length xs)
+  (if (null? xs)
+      0
+      (+ 1 (length (rest xs)))))
+```
+
+**map**: similar to Python built-in function `map`.
+
+```scheme
+(define (map proc xs)
+  (if (null? xs)
+      xs
+      (cons (proc (first xs)) (map proc (rest xs)))))
+```
+
+**filter**: similar to Python built-in function `filter`.
+
+```scheme
+(define (filter proc xs)
+  (cond ((null? xs) xs)
+        ((proc (first xs)) (cons (first xs)
+                                 (filter proc (rest xs))))
+        (else (filter proc (rest xs)))))
 ```
 
