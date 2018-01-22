@@ -100,6 +100,8 @@ class Interpreter:
             try:
                 while True:
                     text = input('> ' if not nested else '  ')
+                    if not text:
+                        continue
                     nested += text.count('(') - text.count(')')
                     line_buffer.append(text)
                     if nested == 0:
