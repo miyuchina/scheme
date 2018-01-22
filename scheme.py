@@ -45,7 +45,7 @@ class Interpreter:
                    'cons': lambda first, rest: (self.eval(first), self.eval(rest)),
                    'first': lambda pair: self.eval(pair)[0],
                    'rest': lambda pair: self.eval(pair)[1],
-                   'list': lambda *args: [*map(self.eval, args)],
+                   'list': lambda *args: reduce(lambda x, y: (y, x), map(self.eval, reversed(args)), None),
                    'empty?': lambda l: bool(l),
                    'none': None,
                    'none?': lambda x: self.eval(x) is None,

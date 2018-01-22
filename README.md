@@ -46,7 +46,7 @@ python3 -i scheme.py
 
 Most arithmetic and boolean operators are built-in.
 Integers, floats and booleans are implemented as Python literals.
-Pairs are implemented as tuples, and lists are implemented as Python lists.
+Pairs are implemented as Python tuples, and lists are implemented as Scheme linked lists.
 All expressions are evaluated in applicative order.
 
 Functions have lexical scoping, but can see everything in its parent scope as well:
