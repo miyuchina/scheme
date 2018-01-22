@@ -56,6 +56,8 @@ Some special forms are listed below:
 - [if](#if)
 - [cond](#cond)
 - [let](#let)
+- [delay](#delay)
+- [force](#force)
 
 ## define
 
@@ -133,5 +135,33 @@ the false expression is never evaluated.
         (y 4))
        (+ x y))
 7
+```
+
+## delay
+
+* **syntax**: `(delay EXPR)`
+* **returns**: `<Procedure>`
+* **example**:
+```scheme
+> (define p (delay (+ x y))
+> (define x 1)
+> (define y 2)
+> (p)
+3
+```
+
+`EXPR` are not evaluated until the expression is called or `force`-d. See below.
+
+## force
+
+* **syntax**: `(force EXPR)`
+* **returns**: the result of `EXPR`
+* **example**:
+```scheme
+> (define p (delay (+ x y))
+> (define x 1)
+> (define y 2)
+> (force p)
+3
 ```
 
