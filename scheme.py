@@ -1,5 +1,6 @@
 from functools import reduce
 from collections import ChainMap
+from traceback import print_exc
 
 def parse(text):
     parts = text.replace('(', ' ( ').replace(')', ' ) ').split()
@@ -110,8 +111,8 @@ class Interpreter:
                     result = self(' '.join(line_buffer))
                     if result is not None:
                         print(result)
-                except Exception as e:
-                    print(f"{e.__class__.__name__}: {e}")
+                except Exception:
+                    print_exc()
             except EOFError:
                 print()
                 break
